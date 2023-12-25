@@ -1,0 +1,24 @@
+deploy:
+  enabled: true
+  name: mediawiki-app
+  mountPath: /var/www/html/images
+  port: 80
+  volume: mediawiki-volume
+  image: mediawiki
+
+service:
+  enabled: true
+  name: mediawiki-srv
+  app: mediawiki-app
+  type: NodePort
+  port: 80
+
+pvc:
+  accessModes: ReadWriteOnce
+  storageClassName: yc-network-hdd
+  storage: 1Gi
+
+ingress:
+  host: front-test.belarus-devops.app
+  port: 80
+

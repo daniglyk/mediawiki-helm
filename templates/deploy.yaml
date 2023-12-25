@@ -1,0 +1,29 @@
+{{- if .Values.deploy.enabled }}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.deploy.name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.deploy.name }}
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.deploy.name }}
+    spec:
+      containers:
+        - name: mediawiki-container
+          image: {{ .Values.deploy.image }}
+          volumeMounts:
+            - mountPath: {{ .Values.deploy.mountPath }}
+              name: mediawiki-volume
+          ports:
+            - containerPort: {{ .Values.deploy.port }}
+      volumes:
+        - name: {{ .Values.deploy.volume }}
+
+{{- end }}
+
